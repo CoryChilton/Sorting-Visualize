@@ -11,6 +11,7 @@ class DrawInformation:
     WHITE = 255, 255, 255
     GREEN = 0, 255, 0
     RED = 255, 0, 0
+    BLUE = 0, 0, 255
     BACKGROUND_COLOR = WHITE
 
     GRADIENTS = [
@@ -177,13 +178,67 @@ def merge_sort(draw_info, ascending=True):
 def quick_sort(draw_info, ascending=True):
     lst = draw_info.lst
     
+    size = len(lst)
+    stack = [0] * (size)
+  
+    # initialize top of stack
+    top = -1
+  
+    # push initial values of l and r to stack
+    top = top + 1
+    stack[top] = 0
+    top = top + 1
+    stack[top] = len(lst) - 1
+  
+    # Keep popping from stack while is not empty
+    while top >= 0:
+  
+        # Pop r and l
+        r = stack[top]
+        top = top - 1
+        l = stack[top]
+        top = top - 1
+
+        #partition
+        i = ( l - 1 )
+        x = lst[r]
+    
+        for j in range(l, r):
+            draw_list(draw_info, {j: draw_info.GREEN, i: draw_info.RED, r: draw_info.BLUE}, True)
+            yield True
+            if (lst[j] <= x and ascending) or (lst[j] >= x and not ascending):
+                i = i + 1
+                lst[i], lst[j] = lst[j], lst[i]
+
+    
+        lst[i + 1], lst[r] = lst[r], lst[i + 1]
+        draw_list(draw_info, {r: draw_info.GREEN, i: draw_info.RED}, True)
+        yield True
+        p = i + 1
+  
+        # If there are elements on left side of pivot,
+        # then push left side to stack
+        if p-1 > l:
+            top = top + 1
+            stack[top] = l
+            top = top + 1
+            stack[top] = p - 1
+  
+        # If there are elements on right side of pivot,
+        # then push right side to stack
+        if p + 1 < r:
+            top = top + 1
+            stack[top] = p + 1
+            top = top + 1
+            stack[top] = r
+
     return lst
 
 def main():
     run = True
     clock = pygame.time.Clock()
 
-    n = 50
+    n = 75
     min_val = 0
     max_val = 100
 
@@ -192,8 +247,8 @@ def main():
     sorting = False
     ascending = True
 
-    sorting_algorithm = merge_sort
-    sorting_algo_name = "Merge Sort"
+    sorting_algorithm = quick_sort
+    sorting_algo_name = "Quick Sort"
     sorting_algorithm_generator = None
 
     while run:
