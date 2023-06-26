@@ -145,29 +145,38 @@ def merge_sort(draw_info, ascending=True):
         
             i, j, k = 0, 0, l
             while i < n1 and j < n2:
-                if L[i] <= R[j]:
+                if (L[i] <= R[j] and ascending) or (L[i] >= R[j] and not ascending):
                     lst[k] = L[i]
                     i += 1
                 else:
                     lst[k] = R[j]
                     j += 1
                 k += 1
+                draw_list(draw_info, {k: draw_info.GREEN}, True)
+                yield True
         
             while i < n1:
                 lst[k] = L[i]
                 i += 1
                 k += 1
+                draw_list(draw_info, {k: draw_info.GREEN}, True)
+                yield True
         
             while j < n2:
                 lst[k] = R[j]
                 j += 1
                 k += 1
-            draw_list(draw_info, {l: draw_info.GREEN, r: draw_info.RED}, True)
-            yield True
+                draw_list(draw_info, {k: draw_info.GREEN}, True)
+                yield True
             #end merging
 
             l += width * 2
         width *= 2
+    return lst
+
+def quick_sort(draw_info, ascending=True):
+    lst = draw_info.lst
+    
     return lst
 
 def main():
@@ -228,6 +237,9 @@ def main():
             elif event.key == pygame.K_m and not sorting:
                 sorting_algorithm = merge_sort
                 sorting_algo_name = "Merge Sort"
+            elif event.key == pygame.K_q and not sorting:
+                sorting_algorithm = quick_sort
+                sorting_algo_name = "Quick Sort"
     
     pygame.quit()
         
