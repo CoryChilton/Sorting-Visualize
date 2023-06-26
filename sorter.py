@@ -238,7 +238,7 @@ def main():
     run = True
     clock = pygame.time.Clock()
 
-    n = 75
+    n = 50
     min_val = 0
     max_val = 100
 
@@ -276,6 +276,11 @@ def main():
                 lst = generate_starting_list(n, min_val, max_val)
                 draw_info.set_list(lst)
                 sorting = False
+            elif event.key == pygame.K_n:
+                n = 100 if n == 50 else 50
+                lst = generate_starting_list(n, min_val, max_val)
+                draw_info.set_list(lst)
+                sorting = False
             elif event.key == pygame.K_SPACE and not sorting:
                 sorting = True
                 sorting_algorithm_generator = sorting_algorithm(draw_info, ascending)
@@ -295,6 +300,8 @@ def main():
             elif event.key == pygame.K_q and not sorting:
                 sorting_algorithm = quick_sort
                 sorting_algo_name = "Quick Sort"
+            
+
     
     pygame.quit()
         
