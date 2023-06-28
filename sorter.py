@@ -43,7 +43,7 @@ class DrawInformation:
         self.block_height = math.floor((self.height - self.TOP_PAD) / (self.max_val - self.min_val))
         self.start_x = self.SIDE_PAD // 2
 
-def draw(draw_info, algo_name, ascending):
+def draw(draw_info, algo_name, ascending, n):
     draw_info.window.fill(draw_info.BACKGROUND_COLOR)
 
     title = draw_info.LARGE_FONT.render(f"{algo_name} - {'Ascending' if ascending else 'Descending'}", 1, draw_info.GREEN)
@@ -53,7 +53,10 @@ def draw(draw_info, algo_name, ascending):
     draw_info.window.blit(controls, ((draw_info.width/2 - controls.get_width()/2, 40)))
 
     sorting = draw_info.FONT.render("I - Insertion Sort | B - Bubble Sort | M - Merge Sort | Q - Quick Sort", 1, draw_info.BLACK)
-    draw_info.window.blit(sorting, ((draw_info.width/2 - sorting.get_width()/2, 70)))
+    draw_info.window.blit(sorting, ((draw_info.width/2 - sorting.get_width()/2, 100)))
+
+    numBars = draw_info.FONT.render(f"Number of Bars: {n} | N - Change Number of Bars to {100 if n == 50 else 50}", 1, draw_info.BLACK)
+    draw_info.window.blit(numBars, ((draw_info.width/2 - numBars.get_width()/2, 70)))
 
     draw_list(draw_info)
     pygame.display.update()
@@ -260,7 +263,7 @@ def main():
             except StopIteration:
                 sorting = False
         else:
-            draw(draw_info, sorting_algo_name, ascending)
+            draw(draw_info, sorting_algo_name, ascending, n)
 
 
         pygame.display.update()
